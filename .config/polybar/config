@@ -27,7 +27,7 @@ margin-top    = 25
 margin-bottom = 25
 
 [bar/laptop]
-
+monitor    = eDP-1
 width      = 100%
 height     = 26
 #offset-x   = 0%
@@ -41,7 +41,7 @@ font-1              = FontAwesome:size=11;0
 
 modules-left        = i3 xwindow
 modules-center      = date
-modules-right       = backlight volumeintel filesystem battery 
+modules-right       = backlight pavolume filesystem battery 
 tray-position       = right
 tray-padding        = 0
 tray-transparent    = false
@@ -56,7 +56,7 @@ module-margin-right = 2
 
 [module/xwindow]
 type              = internal/xwindow
-label             = %title:0:30:...%
+label             = %title:0:75:...%
 
 
 [module/i3]
@@ -91,18 +91,6 @@ card               = intel_backlight
 format             = <label>
 format-padding     = 1
 label              =   %percentage%%
-
-[module/volumeintel]
-type                      = internal/volume
-format-volume             = <ramp-volume> <label-volume>
-master-mixer              = Master
-label-muted               =   muted
-ramp-volume-0             = 
-ramp-volume-1             = 
-ramp-volume-2             = 
-format-volume-padding     = 1
-mapping                   = true
-
 
 [module/date]
 type              = internal/date
@@ -182,3 +170,12 @@ format-mounted = <label-mounted>
 ; Default: %mountpoint% %percentage_free%%
 label-mounted =   %free%
 
+[module/pavolume]
+type = custom/script
+interval = 0.1
+label = %output%
+exec = ~/.config/polybar/pavolume.sh
+click-right = exec pavucontrol
+click-left = ~/.config/polybar/pavolume.sh --togmute
+scroll-up = ~/.config/polybar/pavolume.sh --up
+scroll-down = ~/.config/polybar/pavolume.sh --down
