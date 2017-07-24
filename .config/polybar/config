@@ -40,8 +40,8 @@ font-0              = SFNS:size=10:fontformat=truetype
 font-1              = FontAwesome:size=11;0
 
 modules-left        = i3 xwindow
-modules-center      = date
-modules-right       = backlight pavolume filesystem battery 
+modules-center      = date 
+modules-right       = lbacklight pavolume filesystem battery 
 tray-position       = right
 tray-padding        = 0
 tray-transparent    = false
@@ -85,13 +85,6 @@ label-urgent-background    = ${colors.blue}
 label-urgent-padding       = 1
 label-visible-padding      = 1
 
-[module/backlight]
-type               = internal/backlight
-card               = intel_backlight
-format             = <label>
-format-padding     = 1
-label              =   %percentage%%
-
 [module/date]
 type              = internal/date
 interval          = 1
@@ -106,7 +99,7 @@ label-font        = 6
 type                         = internal/battery
 battery                      = BAT0
 adapter                      = AC
-full-at                      = 99
+full-at                      = 100
 
 time-format = %H:%M
 
@@ -147,27 +140,7 @@ interval = 10
 ; Default: false
 fixed-values = true
 
-; Spacing between entries
-; Default: 2
-spacing = 4
-
-; Available tags:
-;   <label-mounted> (default)
-;   <bar-free>
-;   <bar-used>
-;   <ramp-capacity>
 format-mounted = <label-mounted>
-
-; Available tokens:
-;   %mountpoint%
-;   %type%
-;   %fsname%
-;   %percentage_free%
-;   %percentage_used%
-;   %total%
-;   %free%
-;   %used%
-; Default: %mountpoint% %percentage_free%%
 label-mounted =   %free%
 
 [module/pavolume]
@@ -179,3 +152,9 @@ click-right = exec pavucontrol
 click-left = ~/.config/polybar/pavolume.sh --togmute
 scroll-up = ~/.config/polybar/pavolume.sh --up
 scroll-down = ~/.config/polybar/pavolume.sh --down
+
+[module/lbacklight]
+type = custom/script
+interval = 0.1
+label =   %output%%
+exec = ~/.config/polybar/lbacklight.sh
