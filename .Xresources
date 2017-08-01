@@ -17,8 +17,8 @@ Xft.rgba:	rgb
 ! rofi
 !----------------------------
 
-rofi.terminal:		urxvtc
-rofi.run-shell-command:	urxvtc -e '{cmd}'
+rofi.terminal:		termite
+rofi.run-shell-command:	termite -e '{cmd}'
 rofi.ssh-command:	tmux split-window -h -p 50 '{ssh-client} {host}'
 rofi.location:		0
 rofi.width:		25
@@ -36,7 +36,7 @@ rofi.font:		SFNS 12
 URxvt*scrollBar:	false
 URxvt*depth:		32
 URxvt.cursorBlink:	true
-URxvt.font: xft:myfont:light:size:myfontsize
+URxvt.font: xft:myfont:light:size:myfontsize, xft:FontAwesome:size:myfontsize
 URxvt.boldFont: xft:myfont:size:myfontsize
 URxvt.italicFont: xft:myfont:italic:size:myfontsize
 URxvt.boldItalicFont: xft:myfont:bold:italic:size:myfontsize

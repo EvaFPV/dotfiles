@@ -3,4 +3,7 @@ rename Delain
 rename 
 mkdir Les Miserables
 mkdir "Les Miserables"
+open_with :
+mkdir dataPartition
 delete
+

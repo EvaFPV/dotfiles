@@ -136,7 +136,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 ###
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id urxvtc 
+bindsym $mod+Return exec --no-startup-id termite 
 
 # start rofi
 bindsym $mod+d exec rofi -show run
@@ -167,7 +167,8 @@ client.background       $bg
 
 # Gaps
 for_window [class="^.*"] border pixel 0
-gaps inner 10
+gaps outer 5
+gaps inner 5
 smart_gaps on
 
 # Starts polybar

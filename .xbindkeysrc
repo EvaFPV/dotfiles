@@ -1,18 +1,30 @@
 ###
-### Volume
+### Audio
 ###
 
 # Increase Volume
-"pamixer --increase 5"
+"amixer -M set Master 5%+"
 	XF86AudioRaiseVolume
 
 # Decrease Volume
-"pamixer --decrease 5"
+"amixer -M set Master 5%-"
 	XF86AudioLowerVolume
 
 # Mute Audio
-"pamixer --toggle-mute"
+"amixer -M set Master toggle"
 	XF86AudioMute
+
+# MPD Play/Pause
+"mpc toggle"
+	XF86AudioPlay
+
+# MPD Next Track
+"mpc next"
+	XF86AudioNext
+
+# MPD Previous Track
+"mpc prev"
+	XF86AudioPrev
 
 ###
 ### Backlight
@@ -25,3 +37,11 @@
 # Decrease Brightness
 "light -U 5"
 	XF86MonBrightnessDown
+
+###
+### Screenshot
+###
+
+"scrot"
+	Print
+
