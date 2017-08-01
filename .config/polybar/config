@@ -40,8 +40,8 @@ font-0              = SFNS:size=10:fontformat=truetype
 font-1              = FontAwesome:size=11;0
 
 modules-left        = i3 xwindow
-modules-center      = date 
-modules-right       = lbacklight pavolume filesystem battery 
+modules-center      = mpd
+modules-right       = lbacklight volume filesystem battery date
 tray-position       = right
 tray-padding        = 0
 tray-transparent    = false
@@ -56,7 +56,7 @@ module-margin-right = 2
 
 [module/xwindow]
 type              = internal/xwindow
-label             = %title:0:75:...%
+label             = %title:0:50:...%
 
 
 [module/i3]
@@ -88,12 +88,10 @@ label-visible-padding      = 1
 [module/date]
 type              = internal/date
 interval          = 1
-time              = "%H:%M"
-time-alt          = " %A, %d. %B"
-format            = 🕓 <label>
-format-padding    = 1
-label             = "%time%"
-label-font        = 6
+time              = %H:%M
+time-alt          =   %A, %d %B
+format            = <label>
+label             = %time%
 
 [module/battery]
 type                         = internal/battery
@@ -126,15 +124,78 @@ animation-charging-3         = 
 animation-charging-4         = 
 animation-charging-framerate = 750
 
+[module/volume]
+type = internal/volume
+
+; Soundcard to be used
+master-soundcard = default
+speaker-soundcard = default
+headphone-soundcard = default
+
+; Name of the master mixer
+; Default: Master
+master-mixer = Master
+
+; Optionally define speaker and headphone mixers
+; Use the following command to list available mixer controls:
+; $ amixer scontrols | sed -nr "s/.*'([[:alnum:]]+)'.*/\1/p"
+; Default: none
+; speaker-mixer = Speaker
+; Default: none
+; headphone-mixer = Headphone
+
+; NOTE: This is required if headphone_mixer is defined
+; Use the following command to list available device controls
+; $ amixer controls | sed -r "/CARD/\!d; s/.*=([0-9]+).*name='([^']+)'.*/printf '%3.0f: %s\n' '\1' '\2'/e" | sort
+; Default: none
+; headphone-id = 9
+
+; Use volume mapping (similar to amixer -M and alsamixer), where the increase in volume is linear to the ear
+; Default: false
+mapped = true
+
+; Available tags:
+;   <label-volume> (default)
+;   <ramp-volume>
+;   <bar-volume>
+format-volume = <ramp-volume> <label-volume>
+
+; Available tags:
+;   <label-muted> (default)
+;   <ramp-volume>
+;   <bar-volume>
+format-muted = <label-muted>
+
+; Available tokens:
+;   %percentage% (default)
+label-volume = %percentage%%
+
+; Available tokens:
+;   %percentage% (default)
+label-muted =  Muted
+label-muted-foreground = #66
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = 
+ramp-volume-1 = 
+ramp-volume-2 = 
+
+; If defined, it will replace <ramp-volume> when
+; headphones are plugged in to `headphone_control_numid`
+; If undefined, <ramp-volume> will be used for both
+; Only applies if <ramp-volume> is used
+; ramp-headphones-0 = 
+; ramp-headphones-1 = 
+
 [module/filesystem]
 type = internal/fs
 
 ; Mountpoints to display
-mount-0 = /data
+mount-0 = /home
 
 ; Seconds to sleep between updates
 ; Default: 30
-interval = 10
+interval = 5
 
 ; Display fixed precision values
 ; Default: false
@@ -143,18 +204,34 @@ fixed-values = true
 format-mounted = <label-mounted>
 label-mounted =   %free%
 
-[module/pavolume]
-type = custom/script
-interval = 0.1
-label = %output%
-exec = ~/.config/polybar/pavolume.sh
-click-right = exec pavucontrol
-click-left = ~/.config/polybar/pavolume.sh --togmute
-scroll-up = ~/.config/polybar/pavolume.sh --up
-scroll-down = ~/.config/polybar/pavolume.sh --down
-
 [module/lbacklight]
 type = custom/script
 interval = 0.1
 label =   %output%%
 exec = ~/.config/polybar/lbacklight.sh
+
+[module/mpd]
+type = internal/mpd
+
+host = 127.0.0.1
+port = 6600
+
+interval = 1
+
+format-online = <label-song> <bar-progress> <label-time>
+
+label-song = %artist% - %title%
+
+label-offline = mpd is offline
+
+icon-play = 
+icon-pause = 
+icon-prev = 
+icon-next = 
+icon-seekb = 
+icon-seekf = 
+
+bar-progress-width = 20
+bar-progress-indicator = |
+bar-progress-fill = ─
+bar-progress-empty = ─
