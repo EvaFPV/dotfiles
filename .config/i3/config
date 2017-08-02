@@ -1,94 +1,161 @@
-###################################
-###	Evelyn's i3 config	###
-###################################
+##################################
+###-----Evelyn's i3 config-----###
+##################################
 
-
-###
-### i3 Keybindings
-###
-
-# Alias modifiers
+### Definitions ###
+# Gaps:
+hide_edge_borders both
+for_window [class="^.*"] border pixel 0
+gaps outer 5
+gaps inner 5
+smart_gaps on
+# Font:
+font pango:Office Code Pro 10
+# Aliases:
 set $mod Mod4
-
-# change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
-
-# move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-
-# split in horizontal orientation
-bindsym $mod+h split h
-
-# split in vertical orientation
-bindsym $mod+v split v
-
-# enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
-
-# Use Mouse+$mod to drag floating windows to their wanted position
+set $term urxvt
+set $browser firefox
 floating_modifier $mod
 
-# kill focused window
-bindsym $mod+Shift+q kill
+### External Programs and Scripts ###
+# MPD:
+exec --no-startup-id mpd
+# Wifi-applet:
+exec --no-startup-id nm-applet
+# Compton:
+exec --no-startup-id compton
+# Polybar:
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+# Set wallpaper:
+exec --no-startup-id feh --bg-scale ~/.config/wall.png
+# Dunst:
+exec --no-startup-id dunst
+# Hide mouse cursor after brief period
+exec --no-startup-id unclutter
+#Remaps the caps lock to escape and uses the US international keyboard with dead keys
+exec_always --no-startup-id setxkbmap -layout us -variant altgr-intl -option caps:escape
 
-# resize window (you can also use the mouse for that)
-mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+### Audio Setup ###
+# MPD:
+set $music urxvt -e ncmpcpp
+set $pause --no-startup-id mpc toggle
+set $next --no-startup-id mpc next
+set $prev --no-startup-id mpc prev
+# ALSA:
+set $inc --no-startup-id amixer set Master 5%+
+set $dec --no-startup-id amixer set Master 5%-
+set $mute --no-startup-id amixer set Master toggle
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+### Dropdown/Scratchpad Windows ###
+# tmux window for background scripts
+# Later bound to mod+u
+for_window [instance="dropdown"] floating enable
+for_window [instance="dropdown"] resize set 625 400
+for_window [instance="dropdown"] move position center
+for_window [instance="dropdown"] move scratchpad
+exec --no-startup-id $term -name dropdown -e tmux
 
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-}
+# Maths
+# Later bound to mod+a.
+for_window [instance="math"] floating enable
+for_window [instance="math"] resize set 800 300
+for_window [instance="math"] move position center
+for_window [instance="math"] move scratchpad
+exec --no-startup-id $term -fn "xft:mono:pixelsize=24" -name math -e R -q
 
-bindsym $mod+r mode "resize"
+### Basic Keybindings ###
+bindsym $mod+Return		exec $term
+bindsym $mod+Shift+Return	exec $term -e tmux
+bindsym $mod+Shift+space	floating toggle
 
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+### Letter Keybindings ###
+bindsym $mod+q		kill
+bindsym $mod+Shift+q	kill
 
-# toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+w		exec $browser
+bindsym $mod+Shift+w	exec $browser
 
-# change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+e		exec $term -e mutt
+#bindsym $mod+Shift+e	
 
-### Workspaces ###
+bindsym $mod+r		exec $term -e ranger
+bindsym $mod+Shift+r	restart
 
-# Workspace variables
+bindsym $mod+t		spit toggle
+bindsym $mod+Shift+t	gaps inner current set 5; gaps outer current set 5
+
+#bindsym $mod+y		
+bindsym $mod+Shift+y	resize shrink width 10 px or 10 ppt
+
+bindsym $mod+u		[instance="dropdown"] scratchpad show; move position center
+bindsym $mod+Shift+u	resize shrink height 10 px or 10 ppt
+
+bindsym $mod+i		exec $term -e htop
+bindsym $mod+Shift+i	resize grow height 10 px or 10 ppt
+
+#bindsym $mod+o		
+bindsym $mod+Shift+o	resize grow width 10 px or 10 ppt
+
+bindsym $mod+a		[instance="math"] scratchpad show; move position center
+#bindsym $mod+Shift+a	
+
+bindsym $mod+s		gaps inner current plus 5
+bindsym $mod+Shift+s	gaps inner current minus 5
+
+bindsym $mod+d		exec rofi -show run
+bindsym $mod+Shift+d	gaps inner current set 0; gaps outer current set 0
+
+bindsym $mod+f		fullscreen toggle
+#bindsym $mod+Shift+f	
+
+bindsym $mod+g		workspace prev
+bindsym $mod+Shift+g	exec --no-startup-id gimp; workspace $ws5
+
+bindsym $mod+h		focus left
+bindsym $mod+Shift+h	move left 30
+
+bindsym $mod+j		focus down
+bindsym $mod+Shift+j	move down 30
+
+bindsym $mod+k		focus up
+bindsym $mod+Shift+k	move up 30
+
+bindsym $mod+l		focus right
+bindsym $mod+Shift+l	move right 30
+
+bindsym $mod+z		gaps outer current plus 5
+bindsym $mod+Shift+z	gaps outer current minus 5
+
+#bindsym $mod+x		exec --no-startup-id lock
+#bindsym $mod+Shift+x	
+
+bindsym $mod+c		exec --no-startup-id discord; workspace $ws9
+#bindsym $mod+Shift+c	
+
+bindsym $mod+v		exec $term -e ncmpcpp -s visualizer
+#bindsym $mod+Shift+v	
+
+#bindsym $mod+b		
+bindsym $mod+Shift+b	exec --no-startup-id blender; workspace $ws6
+
+#bindsym $mod+n		
+#bindsym $mod+Shift+n	
+
+bindsym $mod+m		exec $music
+#bindsym $mod+Shift+m	
+
+### Workspace Bindings ###
+bindsym $mod+Home	workspace $ws1
+bindsym $mod+Shift+Home	move container to workspace $ws1
+bindsym $mod+End	workspace $ws10
+bindsym $mod+Shift+End	move container to workspace $ws10
+bindsym $mod+semicolon	workspace next
+bindsym $mod+Shift+semicolon	move container to workspace next
+bindsym $mod+apostrophe	workspace prev
+bindsym $mod+Shift+apostrophe	move container to workspace prev
+bindsym $mod+tab	workspace back_and_forth
+
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -101,58 +168,93 @@ set $ws9 "9"
 set $ws10 "10"
 
 # Switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+1	workspace $ws1
+bindsym $mod+2	workspace $ws2
+bindsym $mod+3	workspace $ws3
+bindsym $mod+4	workspace $ws4
+bindsym $mod+5	workspace $ws5
+bindsym $mod+6	workspace $ws6
+bindsym $mod+7	workspace $ws7
+bindsym $mod+8	workspace $ws8
+bindsym $mod+9	workspace $ws9
+bindsym $mod+0	workspace $ws10
 
-# Move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
+# Move focused to workspace
+bindsym $mod+Shift+1	move container to workspace $ws1
+bindsym $mod+Shift+2	move container to workspace $ws2
+bindsym $mod+Shift+3	move container to workspace $ws3
+bindsym $mod+Shift+4	move container to workspace $ws4
+bindsym $mod+Shift+5	move container to workspace $ws5
+bindsym $mod+Shift+6	move container to workspace $ws6
+bindsym $mod+Shift+7	move container to workspace $ws7
+bindsym $mod+Shift+8	move container to workspace $ws8
+bindsym $mod+Shift+9	move container to workspace $ws9
+bindsym $mod+Shift+0	move container to workspace $ws10
 
-# reload the configuration file
-bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+workspace $ws5 gaps inner 0
+workspace $ws5 gaps outer 0
+workspace $ws6 gaps inner 0
+workspace $ws6 gaps outer 0
+workspace $ws7 gaps inner 0
+workspace $ws7 gaps outer 0
+workspace $ws8 gaps inner 0
+workspace $ws8 gaps outer 0
 
-###
-### Application Keybindings
-###
+### Function Buttons ###
+#bindsym F1
+#bindsym F2
+#bindsym F3
+#bindsym F4
+#bindsym F5
+#bindsym F6
+#bindsym F7
+#bindsym F8
+#bindsym F9
+#bindsym F10
+bindsym F11		fullscreen toggle
+#bindsym F12
 
-# start a terminal
-bindsym $mod+Return exec --no-startup-id termite 
+#bindsym $mod+F1		exec --no-startup-id mupdf ~/.config/Scripts/i3_guide.md.pdf
+#bindsym $mod+F2		exec --no-startup-id python ~/.config/Scripts/shortcuts.py
+#bindsym $mod+F3		exec --no-startup-id arandr
+#bindsym $mod+F4		exec --no-startup-id sudo zzz
+#bindsym $mod+F5		exec --no-startup-id sudo sv restart NetworkManager
+#bindsym $mod+F6		exec --no-startup-id urxvt -e transmission-remote-cli
+#bindsym $mod+F7		exec transset -a --dec .15
+#bindsym $mod+F8		exec transset -a --inc .15
+#bindsym $mod+F9		exec --no-startup-id sudo mount -a
+#bindsym $mod+F10	exec --no-startup-id ~/.config/Scripts/screen.sh l ;; exec --no-startup-id ~/.config/polybar/launch.sh
+#bindsym $mod+F11	exec --no-startup-id ~/.config/Scripts/screen.sh v ;; exec --no-startup-id ~/.config/polybar/launch.sh
+#bindsym $mod+F12 exec --no-startup-id ~/.config/Scripts/screen.sh d ;; exec --no-startup-id ~/.config/polybar/launch.sh
 
-# start rofi
-bindsym $mod+d exec rofi -show run
+### Arrow Keys ###
+bindsym $mod+Left		focus left
+bindsym $mod+Down		focus down
+bindsym $mod+Up			focus up
+bindsym $mod+Right 		focus right
+bindsym $mod+Shift+Left		move left
+bindsym $mod+Shift+Down		move down
+bindsym $mod+Shift+Up		move up
+bindsym $mod+Shift+Right move right
 
-###
-### Visuals
-###
+### Media Keys ###
+# Print screen takes a screenshot.
+# With shift, it takes one only of the given window.
+bindsym Print 			exec --no-startup-id scrot
+bindsym Shift+Print exec --no-startup-id scrot -u
 
-# Font
-font pango:Office Code Pro D 10
+bindsym XF86AudioMute		exec $mute
+bindsym XF86AudioLowerVolume	exec $dec
+bindsym XF86AudioRaiseVolume 	exec $inc
+bindsym XF86AudioPrev 		exec $prev
+bindsym XF86AudioPlay		exec $pause
+bindsym XF86AudioNext		exec $next
 
-# Set colors from Xresources
-# Change 'color7' and 'color2' to whatever colors you want i3 to use
-# from the generated scheme.
-# NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
-# it fails to get colors from Xresources for some reason.
+bindsym XF86MonBrightnessDown	exec --no-startup-id light -U 5
+bindsym XF86MonBrightnessUp 	exec --no-startup-id light -A 5
+
+### Colors ###
+# Not really necessary due to no borders
 set_from_resource $fg i3wm.color7 #f0f0f0
 set_from_resource $bg i3wm.color2 #f0f0f0
 
@@ -165,12 +267,4 @@ client.placeholder      $bg     $bg     $fg  $bg       $bg
 
 client.background       $bg
 
-# Gaps
-for_window [class="^.*"] border pixel 0
-gaps outer 5
-gaps inner 5
-smart_gaps on
-
-# Starts polybar
-exec_always --no-startup-id ~/.config/polybar/launch.sh
 
