@@ -14,12 +14,12 @@ font pango:Office Code Pro 10
 # Aliases:
 set $mod Mod4
 set $term urxvt
-set $browser firefox
+set $browser apulse firefox
 floating_modifier $mod
 
 ### External Programs and Scripts ###
 # MPD:
-exec --no-startup-id mpd
+exec --no-startup-id mpd; mpc pause
 # Wifi-applet:
 exec --no-startup-id nm-applet
 # Compton:
@@ -30,10 +30,14 @@ exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec --no-startup-id feh --bg-scale ~/.config/wall.png
 # Dunst:
 exec --no-startup-id dunst
-# Hide mouse cursor after brief period
+# Hide mouse cursor after brief period:
 exec --no-startup-id unclutter
-#Remaps the caps lock to escape and uses the US international keyboard with dead keys
+# Remaps the caps lock to escape and uses the US international keyboard with dead keys:
 exec_always --no-startup-id setxkbmap -layout us -variant altgr-intl -option caps:escape
+# Locks the screen after 10 minutes of inactivity:
+exec --no-startup-id xautolock -time 10 -locker ~/.config/i3/lock.sh -killtime 10 -killer "systemctl suspend" -secure
+# Starts redshift to adjust color temp at night:
+exec --no-startup-id redshift-gtk
 
 ### Audio Setup ###
 # MPD:
@@ -51,7 +55,7 @@ set $mute --no-startup-id amixer set Master toggle
 # tmux window for background scripts
 # Later bound to mod+u
 for_window [instance="dropdown"] floating enable
-for_window [instance="dropdown"] resize set 625 400
+for_window [instance="dropdown"] resize set 960 540
 for_window [instance="dropdown"] move position center
 for_window [instance="dropdown"] move scratchpad
 exec --no-startup-id $term -name dropdown -e tmux
@@ -67,6 +71,7 @@ exec --no-startup-id $term -fn "xft:mono:pixelsize=24" -name math -e R -q
 ### Basic Keybindings ###
 bindsym $mod+Return		exec $term
 bindsym $mod+Shift+Return	exec $term -e tmux
+bindsym $mod+space		focus mode_toggle
 bindsym $mod+Shift+space	floating toggle
 
 ### Letter Keybindings ###
@@ -82,7 +87,7 @@ bindsym $mod+e		exec $term -e mutt
 bindsym $mod+r		exec $term -e ranger
 bindsym $mod+Shift+r	restart
 
-bindsym $mod+t		spit toggle
+bindsym $mod+t		split toggle
 bindsym $mod+Shift+t	gaps inner current set 5; gaps outer current set 5
 
 #bindsym $mod+y		
@@ -103,7 +108,7 @@ bindsym $mod+a		[instance="math"] scratchpad show; move position center
 bindsym $mod+s		gaps inner current plus 5
 bindsym $mod+Shift+s	gaps inner current minus 5
 
-bindsym $mod+d		exec rofi -show run
+bindsym $mod+d		exec rofi -show drun
 bindsym $mod+Shift+d	gaps inner current set 0; gaps outer current set 0
 
 bindsym $mod+f		fullscreen toggle
@@ -127,7 +132,7 @@ bindsym $mod+Shift+l	move right 30
 bindsym $mod+z		gaps outer current plus 5
 bindsym $mod+Shift+z	gaps outer current minus 5
 
-#bindsym $mod+x		exec --no-startup-id lock
+bindsym $mod+x		exec --no-startup-id ~/.config/i3/lock.sh
 #bindsym $mod+Shift+x	
 
 bindsym $mod+c		exec --no-startup-id discord; workspace $ws9

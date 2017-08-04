@@ -17,8 +17,8 @@ Xft.rgba:	rgb
 ! rofi
 !----------------------------
 
-rofi.terminal:		termite
-rofi.run-shell-command:	termite -e '{cmd}'
+rofi.terminal:		urxvt
+rofi.run-shell-command:	urxvt -e '{cmd}'
 rofi.ssh-command:	tmux split-window -h -p 50 '{ssh-client} {host}'
 rofi.location:		0
 rofi.width:		25
@@ -36,7 +36,7 @@ rofi.font:		SFNS 12
 URxvt*scrollBar:	false
 URxvt*depth:		32
 URxvt.cursorBlink:	true
-URxvt.font: xft:myfont:light:size:myfontsize, xft:FontAwesome:size:myfontsize
+URxvt.font: xft:myfont:light:size:myfontsize
 URxvt.boldFont: xft:myfont:size:myfontsize
 URxvt.italicFont: xft:myfont:italic:size:myfontsize
 URxvt.boldItalicFont: xft:myfont:bold:italic:size:myfontsize
@@ -47,4 +47,52 @@ URxvt.letterSpace:	-1
 *autohint:		true
 
 
+!============================
+! colors
+!----------------------------
 
+URxvt*foreground:	#d3aa96
+URxvt*background:	[90]#130506
+URxvt*cursorColor:	#d3aa96
+
+! Generic special colors
+*foreground:	#d3aa96
+*background:	#130506
+
+! black
+*.color0:       #1b0502
+*.color8:       #280f0e
+
+! red
+*.color1:       #52171f
+*.color9:       #672932
+
+! green
+*.color2:       #899232
+*.color10:      #aeb759
+
+! yellow
+*.color3:       #b66c47
+*.color11:      #e0ab74
+
+! blue
+*.color4:       #005e79
+*.color12:      #257f97
+
+! magenta
+*.color5:       #4f3458
+*.color13:      #6a4978
+
+! cyan
+*.color6:       #2c625c
+*.color14:      #4d7d73
+
+! white
+*.color7:       #cc8d60
+*.color15:      #d09b81
+
+! Rofi colors.
+rofi.color-window: #130506, #130506, #e0ab74
+rofi.color-normal: #130506, #D3AA96, #130506, #e0ab74, #130506
+rofi.color-active: #130506, #D3AA96, #130506, #e0ab74, #130506
+rofi.color-urgent: #130506, #52171f, #130506, #52171f, #D3AA96

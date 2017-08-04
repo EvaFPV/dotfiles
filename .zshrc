@@ -16,7 +16,7 @@ autoload -Uz promptinit
 promptinit
 
 # Aliases
-alias zsh='zsh --servername zsh'
+alias vim="vim --servername vim"
 
 # Syntax highlighting
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

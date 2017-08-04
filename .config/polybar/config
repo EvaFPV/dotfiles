@@ -10,9 +10,9 @@
 
 [colors]
 
-fg = ${xrdb:color7}
+fg = ${xrdb:foreground}
 modfg = ${xrdb:color1}
-bg = ${xrdb:color0}
+bg = ${xrdb:background}
 
 white = #d1d1d1
 gray = #585858
@@ -29,7 +29,7 @@ margin-bottom = 25
 [bar/laptop]
 monitor    = eDP-1
 width      = 100%
-height     = 26
+height     = 25
 #offset-x   = 0%
 #offset-y   = 0%
 locale     = en_US.UTF-8
@@ -39,9 +39,9 @@ foreground = ${colors.fg}
 font-0              = SFNS:size=10:fontformat=truetype
 font-1              = FontAwesome:size=11;0
 
-modules-left        = i3 xwindow
-modules-center      = mpd
-modules-right       = lbacklight volume filesystem battery date
+modules-left        = i3 xwindow mpd
+modules-center      = date
+modules-right       = lbacklight volume filesystem battery
 tray-position       = right
 tray-padding        = 0
 tray-transparent    = false
@@ -150,10 +150,6 @@ master-mixer = Master
 ; Default: none
 ; headphone-id = 9
 
-; Use volume mapping (similar to amixer -M and alsamixer), where the increase in volume is linear to the ear
-; Default: false
-mapped = true
-
 ; Available tags:
 ;   <label-volume> (default)
 ;   <ramp-volume>
@@ -218,7 +214,7 @@ port = 6600
 
 interval = 1
 
-format-online = <label-song> <bar-progress> <label-time>
+format-online = <label-song> <label-time>
 
 label-song = %artist% - %title%
 
